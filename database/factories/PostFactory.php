@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Post>
@@ -17,8 +18,8 @@ class PostFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => $this->faker->words(rand(5, 10), true),
-            'content' => $this->faker->paragraph(5),
+            'title' => Str::ucfirst($this->faker->words(rand(5, 10), true)),
+            'content' => "<p>" . implode("</p>\n<p>", $this->faker->paragraphs(5)) . "</p>\n",
         ];
     }
 }
