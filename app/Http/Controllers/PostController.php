@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Category;
+use App\Models\Comment;
 
 class PostController extends Controller
 {
@@ -88,5 +89,21 @@ class PostController extends Controller
         $post->delete();
 
         return redirect()->route('posts.index');
+    }
+
+    /**
+     * Store a newly created post comment in storage.
+     */
+    public function comment(Request $request, Post $post)
+    {
+        $request->validate([
+            'content' => 'required|max:1000',
+        ]);
+
+        Comment::create([
+            'post_id' => $post->id,
+        ] + $request->all());
+
+        return redirect()->route('posts.show', $post);
     }
 }

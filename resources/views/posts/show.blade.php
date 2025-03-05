@@ -9,6 +9,31 @@
     {!! $post->content !!}
 
     <h2>Comments</h2>
+
+    @auth
+        @if($errors->any())
+            <div style="color:red">
+                <h4>Errors:</h4>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <form action="{{ route('posts.comment', $post) }}" method="POST">
+            @csrf
+
+            <label style="display:block">
+                Create Comment<br>
+                <textarea name="content" placeholder="Comment" cols="50" rows="3" maxlength="1000" required>{{ old('content') }}</textarea>
+            </label>
+
+            <button type="submit">Save</button>
+        </form>
+    @endauth
+
     @if ($comments->isEmpty())
         <p><i>Empty</i></p>
     @else

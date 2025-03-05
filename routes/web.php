@@ -13,4 +13,6 @@ Route::middleware('auth')->group(function () {
 
 Route::resource('posts', PostController::class)->only(['index', 'show']);
 
+Route::post('posts/{post}/comments', [PostController::class, 'comment'])->name('posts.comment');
+
 require __DIR__ . '/auth.php';
