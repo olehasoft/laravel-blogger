@@ -10,6 +10,23 @@ use App\Models\Comment;
 class PostController extends Controller
 {
     /**
+     * Display a list of search results.
+     */
+    public function search(string $search)
+    {
+        $search = trim($search);
+
+        if (strlen($search) === 0) {
+            return redirect()->route('posts.index');
+        }
+
+        $like = '%' . preg_replace('/\s+/u', '%', $search) . '%';
+        $posts = Post::where('title', 'like', $like)->with('category')->orderByDesc('id')->simplePaginate(5);
+
+        return view('posts.index', compact('posts', 'search'));
+    }
+
+    /**
      * Display a listing of the resource.
      */
     public function index()

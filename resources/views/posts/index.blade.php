@@ -9,9 +9,20 @@
         <p><a href="{{ route('posts.create') }}">Create Post &raquo;</a></p>
     @endauth
 
+    <form action="{{ route('posts.search') }}" method="POST" style="display:inline">
+        @csrf
+        <input type="text" name="search" placeholder="Search" size="30" maxlength="50" value="{{ $search ?? '' }}" required>
+        <button type="submit">Search</button>
+    </form>
+
+    @isset($search)
+        <a href="{{ route('posts.index') }}">Reset</a>
+    @endisset
+
     @if ($posts->isEmpty())
         <p><i>Empty</i></p>
     @else
+        <br><br>
         <table border="1">
             <thead>
                 <tr>
